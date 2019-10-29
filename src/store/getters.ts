@@ -1,0 +1,1 @@
+export const getUserName: any = <T>(state: stateStatic): T => state.username
