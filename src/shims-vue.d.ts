@@ -6,3 +6,8 @@ declare module '*.vue' {
 interface stateStatic {
   [key: string]: any
 }
+interface SignParams {
+  service: string
+  tips: number 
+  [key: string]: any
+}
