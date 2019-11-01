@@ -11,3 +11,7 @@ interface SignParams {
   tips: number 
   [key: string]: any
 }
+declare module 'rsa.js' {
+  const RSA: any 
+  export default RSA
+}

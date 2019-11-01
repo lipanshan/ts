@@ -18,6 +18,7 @@
         ></span>
       </router-link>
       <Menu
+        @onToggleMenu="toggleSubMenu" @onSelect="selectHandle"
         v-if="item.children && item.children.length"
         v-show="item.collapse"
         :menu="item.children"
@@ -27,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Emit, Vue } from 'vue-property-decorator'
 type menuStack = {
   router?: string
   children?: menuStack[]
@@ -41,59 +42,7 @@ export default class Menu extends Vue {
   @Prop({
     type: Array,
     default() {
-      return [
-        {
-          id: 1,
-          txt: '学员证书',
-          icon: 'icon1',
-          router: '/admin/student',
-          children: [
-            {
-              id: 2,
-              txt: '以获取',
-              icon: '',
-              router: '/admin/student/obtain',
-              collapse: false
-            },
-            {
-              id: 3,
-              txt: '未获取',
-              icon: '',
-              router: '/admin/student/unobtain',
-              collapse: false
-            }
-          ],
-          collapse: false
-        },
-        {
-          id: 4,
-          txt: '厂商证书',
-          icon: 'icon2',
-          router: '/admin/factory',
-          collapse: false
-        },
-        {
-          id: 5,
-          txt: '证书类型',
-          icon: 'icon3',
-          router: '/admin/certificatetype',
-          collapse: false
-        },
-        {
-          id: 6,
-          txt: '培训期数',
-          icon: 'icon4',
-          router: '/admin/train',
-          collapse: false
-        },
-        {
-          id: 7,
-          txt: '系统设置',
-          icon: 'icon5',
-          router: '/admin/systemset',
-          collapse: false
-        }
-      ]
+      return []
     }
   })
   readonly menu?: {
@@ -104,32 +53,14 @@ export default class Menu extends Vue {
   }[]
   private catchMenu: menuStack | any[] = []
 
-  beforeRouteEnter (to: any, from: any, next: any) {
-    console.log(to)
-    // next()
+  @Emit('onToggleMenu')
+  toggleSubMenu<T>(data: T): T {
+    return data
   }
 
-  toggleSubMenu(data: menuStack): void {
-    data.collapse = !data.collapse
-  }
-
-  selectHandle(data: menuStack): void {
-    data.collapse = true
-    if (data.children && data.children.length) {
-      const path = data.children[0].router
-      this.$router.push({
-        path: path
-      })
-      console.log(path)
-    }
-  }
-
-  collapseSubMenu(data: menuStack): void {
-    if (data.children && data.children.length) {
-      for (let i: number = 0, arr: any[] = data.children; i < arr.length; i++) {
-        arr[0].collapse = false
-      }
-    }
+  @Emit('onSelect')
+  selectHandle<T>(data: T): T {
+    return data
   }
 }
 </script>

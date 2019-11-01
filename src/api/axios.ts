@@ -16,11 +16,11 @@ axios.interceptors.request.use(function (config: any): any {
       arr.push(`${cur}=${config.data[cur]}`)
       return arr
     }, []).join('&')
-  } else if (typeof config.data === 'object' && config.data !== null && !config.params.sign) {
+  } else if (typeof config.params === 'object' && config.params !== null && !config.params.sign) {
     config.params.sign = createSign(config.params) // 生成签名
     const keys: (string | number)[] = Object.keys(config.params)
     config.params = keys.reduce((arr: (string| number)[], cur: string| number): (string| number)[] => {
-      arr.push(`${cur}=${config.data[cur]}`)
+      arr.push(`${cur}=${config.params[cur]}`)
       return arr
     }, []).join('&')
   }
@@ -41,7 +41,7 @@ export default axios
   @return：string sign 返回签名
 */ 
 
-export function createSign(data: SignParams): string | ArrayBuffer {
+export function createSign(data: any): string | ArrayBuffer {
   const keys: (string | number)[] = Object.keys(data)
   let str: (string | number)[] = []
   keys.sort()

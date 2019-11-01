@@ -1,4 +1,4 @@
 const state: object = {
-  username: 'lps'
+  username: ''
 }
 export default state

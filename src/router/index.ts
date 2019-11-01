@@ -11,6 +11,11 @@ const routes = [
     component: Search
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login.vue')
+  },
+  {
     path: '/admin',
     component: () => import('@/views/Admin.vue'),
     children: [
@@ -57,7 +62,7 @@ const routes = [
   },
   {
     path: '/admin/*',
-    redirect: '/admin'
+    redirect: '/admin/student/obtain'
   },
   {
     path: '*',
