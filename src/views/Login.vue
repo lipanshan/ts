@@ -40,7 +40,7 @@
             <div class="refresh" @click="refreshVcodeHandle"></div>
           </div>
         </el-form-item>
-        <div class="sumbit">登录</div>
+        <div class="sumbit" @click="submitForm">登录</div>
       </el-form>
     </div>
   </div>
@@ -58,7 +58,8 @@ export default class Login extends Vue {
     password: '',
     vcode: ''
   }
-  private validatorNamePass (
+
+  private validatorNamePass(
     rule: any,
     value: string,
     callback: any,
@@ -69,7 +70,6 @@ export default class Login extends Vue {
     } else {
       callback()
     }
-    console.log(this.loginForm)
   }
   private validatorVcode: any = (
     rule: any,
@@ -85,21 +85,21 @@ export default class Login extends Vue {
   private rules: any = {
     username: [
       {
-        trigger: 'blur',
-        message: '请检查账号是否正确',
+        trigger: 'none', // 禁用input验证
+        message: '请检查账号和密码是否正确',
         validator: this.validatorNamePass
       }
     ],
     password: [
       {
-        trigger: 'blur',
-        message: '请检查密码是否正确',
+        trigger: 'none', // 禁用input验证
+        message: '请检查账号和密码是否正确',
         validator: this.validatorNamePass
       }
     ],
     vcode: [
       {
-        trigger: 'blur',
+        trigger: 'none', // 禁用input验证
         message: '验证码错误，请重新输入',
         validator: this.validatorVcode
       }
@@ -115,6 +115,21 @@ export default class Login extends Vue {
 
   refreshVcodeHandle(): void {
     this.vcodeUrl = getVCode()
+  }
+
+  submitForm(): void {
+    this.validataForm('password')
+  }
+
+  validataForm(prop: string): void {
+    if (prop === '') {
+      this.loginForm.validateField(prop)
+      return
+    }
+    let catchProp: string = this.formData[prop]
+    this.formData[prop] = ''
+    this.loginForm.validateField(prop)
+    this.formData[prop] = catchProp
   }
 }
 </script>

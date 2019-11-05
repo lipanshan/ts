@@ -18,7 +18,8 @@
         ></span>
       </router-link>
       <Menu
-        @onToggleMenu="toggleSubMenu" @onSelect="selectHandle"
+        @onToggleMenu="toggleSubMenu"
+        @onSelect="selectHandle"
         v-if="item.children && item.children.length"
         v-show="item.collapse"
         :menu="item.children"
